@@ -1,6 +1,7 @@
-import { BubbleSort } from '../src/strategies/bubble.sort';
+import { QuickSort } from '../src/strategies/quick.sort';
 
-const bubble = new BubbleSort();
-const testData = [7, 3, 8, 4, 9];
-const correctResult = [3, 4, 7, 8, 9];
-console.log(bubble.sort(testData));
+const bubble = new QuickSort();
+// const testData = [1,2, 5, 4, -1, -2, 3];
+const testData = [7,3,8,4,9];
+// const correctResult = [3, 4, 7, 8, 9];
+console.log(`result = ${bubble.sort(testData)}`);
