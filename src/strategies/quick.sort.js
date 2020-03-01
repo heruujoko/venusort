@@ -3,66 +3,50 @@ exports.__esModule = true;
 var QuickSort = /** @class */ (function () {
     function QuickSort() {
         this.tempData = [];
-        this.pivotIndex = 0;
     }
-    QuickSort.prototype.swapValue = function (index1, index2) {
-        console.log("swapping " + this.tempData[index1] + " >< " + this.tempData[index2]);
-        var tmp = this.tempData[index1];
-        this.tempData[index1] = this.tempData[index2];
-        this.tempData[index2] = tmp;
+    QuickSort.prototype.swapValue = function (array, index1, index2) {
+        console.log("swapping " + array[index1] + " >< " + array[index2]);
+        var tmp = array[index1];
+        array[index1] = array[index2];
+        array[index2] = tmp;
+        console.log("SWAP result " + array);
         console.log('------');
     };
-    QuickSort.prototype.subSort = function () {
-        console.log("pivot " + this.pivot);
-        console.log("pivotIndex " + this.pivotIndex);
-        for (var i = 0; i < this.pivotIndex + 1; i++) {
-            if (this.tempData[i] > this.tempData[this.pivotIndex]) {
-                // move pivot to the left
-                console.log('move pivot to the left');
-                this.swapValue(this.pivotIndex, (this.pivotIndex - 1));
-                this.pivot = this.tempData[this.pivotIndex - 1];
-                this.pivotIndex = this.pivotIndex - 1;
-                console.log("pivot " + this.pivot);
-                console.log("this.pivotIndex " + this.pivotIndex);
-                // swap the bigger value and the right pivot
-                console.log("swap the bigger value and the right pivot => " + (this.pivotIndex + 1));
-                this.swapValue(i, this.pivotIndex + 1);
-                console.log('********');
-                console.log("temp = " + this.tempData);
-                console.log('********');
-                if ((this.tempData[this.pivotIndex - 1] < this.tempData[this.pivotIndex]) && (this.tempData[this.pivotIndex + 1] > this.tempData[this.pivotIndex])) {
-                    var clear = false;
-                    for (var x = 0; x < this.pivotIndex; x++) {
-                        if (this.tempData[x] < this.tempData[this.pivotIndex]) {
-                            clear = true;
-                        }
-                        else {
-                            clear = false;
-                            break;
-                        }
-                    }
-                    if (clear) {
-                        break;
-                    }
-                }
+    QuickSort.prototype.partition = function (low, high) {
+        console.log("---PARTITION START---");
+        // use latest element as pivot
+        var pivot = this.tempData[high];
+        var i = low - 1;
+        console.log("init i => " + i);
+        console.log("pivot : " + pivot);
+        console.log("array : " + this.tempData);
+        for (var j = low; j < high; j++) {
+            // if current element < pivot
+            console.log("i => " + i + ", j => " + j);
+            if (this.tempData[j] < pivot) {
+                console.log("this.tempData[j] < pivot : " + this.tempData[j] + " < " + pivot);
+                i++;
+                this.swapValue(this.tempData, i, j);
             }
         }
+        console.log('swap outside loop');
+        this.swapValue(this.tempData, i + 1, high);
+        console.log("return " + this.tempData[i + 1]);
+        console.log("---PARTITION END---");
+        return i + 1;
+    };
+    QuickSort.prototype.quicksort = function (low, high) {
+        console.log("---QUICK SORT lo: " + low + ", hi: " + high);
+        if (low < high) {
+            var partitionIndex = this.partition(low, high);
+            this.quicksort(low, partitionIndex - 1);
+            this.quicksort(partitionIndex + 1, high);
+        }
+        console.log("---END QUICK SORT lo: " + low + ", hi: " + high);
     };
     QuickSort.prototype.sort = function (data) {
-        console.log("init " + data);
         this.tempData = data;
-        this.pivot = data[data.length - 1];
-        this.pivotIndex = data.length - 1;
-        this.subSort();
-        var it = 1;
-        while (this.pivotIndex > 0) {
-            it++;
-            console.log('---GOAL----');
-            this.pivotIndex = this.pivotIndex - 1;
-            this.pivot = this.tempData[this.pivotIndex];
-            this.subSort();
-        }
-        console.log("ITERATION " + it);
+        this.quicksort(0, data.length - 1);
         return this.tempData;
     };
     QuickSort.prototype.reverseSort = function (data) {
