@@ -1,5 +1,6 @@
 import { Sorter } from 'intefaces/sorter';
 import { BubbleSort } from './strategies/bubble.sort';
+import { QuickSort } from './strategies/quick.sort';
 import { SortMethods } from './methods.enum';
 
 export class Venusort {
@@ -9,6 +10,9 @@ export class Venusort {
         switch (sortMethod) {
             case SortMethods.BUBBLE:
                 this.sorter = new BubbleSort();
+                break;
+            case SortMethods.QUICK:
+                this.sorter = new QuickSort();
                 break;
             default:
                 this.sorter = new BubbleSort();
